@@ -1,0 +1,11 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/airbyte
+file_exists_behavior: OVERWRITE
+hooks:
+  ApplicationStart:
+    - location: codedeploy-restart.sh
+      timeout: 300
+      runas: root
