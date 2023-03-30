@@ -10,3 +10,6 @@ sed -i "s/BASIC_AUTH_USERNAME=.*/BASIC_AUTH_USERNAME=$username/g" .env
 sed -i "s/BASIC_AUTH_PASSWORD=.*/BASIC_AUTH_PASSWORD=$password/g" .env
 
 /usr/local/bin/docker-compose -f docker-compose.yaml up -d
+
+# Authenticate with ECR
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin $REPOSITORY_URI

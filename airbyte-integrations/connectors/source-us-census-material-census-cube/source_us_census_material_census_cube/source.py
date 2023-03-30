@@ -174,7 +174,7 @@ class UsCensusStream(HttpStream, ABC):
 
 
 # Source
-class SourceUsCensus(AbstractSource):
+class SourceUsCensusMaterialCensusCube(AbstractSource):
     def check_connection(self, logger, config) -> Tuple[bool, any]:
         """
         Tests the connection and the API key for the US census website.
