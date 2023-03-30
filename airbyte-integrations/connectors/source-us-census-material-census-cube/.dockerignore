@@ -2,6 +2,6 @@
 !Dockerfile
 !Dockerfile.test
 !main.py
-!source_us_census
+!source_us_census_material_census_cube
 !setup.py
 !secrets

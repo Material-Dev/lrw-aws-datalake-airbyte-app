@@ -6,8 +6,8 @@
 import sys
 
 from airbyte_cdk.entrypoint import launch
-from source_us_census import SourceUsCensus
+from source_us_census_material_census_cube import SourceUsCensusMaterialCensusCube
 
 if __name__ == "__main__":
-    source = SourceUsCensus()
+    source = SourceUsCensusMaterialCensusCube()
     launch(source, sys.argv[1:])

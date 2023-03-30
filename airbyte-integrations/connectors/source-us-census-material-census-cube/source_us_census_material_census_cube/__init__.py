@@ -22,6 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from .source import SourceUsCensus
+from .source import SourceUsCensusMaterialCensusCube
 
-__all__ = ["SourceUsCensus"]
+__all__ = ["SourceUsCensusMaterialCensusCube"]
