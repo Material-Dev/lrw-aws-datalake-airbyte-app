@@ -1,197 +1,39 @@
-# HubSpot Source
+# HubSpot
+This directory contains the manifest-only connector for `source-hubspot`.
 
-This is the repository for the HubSpot source connector, written in Python. For information about how to use this connector within Airbyte, see [the documentation](https://docs.airbyte.io/integrations/sources/hubspot).
+## Documentation reference:
+Visit `https://developers.hubspot.com/` for API documentation
 
-## Primary keys
+## Authentication setup
+**If you are a community contributor**, follow the instructions in the [documentation](https://docs.airbyte.com/integrations/sources/hubspot)
+to generate the necessary credentials. Then create a file `secrets/config.json` conforming to the `source_hubspot/spec.yaml` file.
+Note that any directory named `secrets` is gitignored across the entire Airbyte repo, so there is no danger of accidentally checking in sensitive information.
+See `sample_files/sample_config.json` for a sample config file.
 
-The primary key for the following streams is `id`:
+## Usage
+There are multiple ways to use this connector:
+- You can use this connector as any other connector in Airbyte Marketplace.
+- You can load this connector in `pyairbyte` using `get_source`!
+- You can open this connector in Connector Builder, edit it, and publish to your workspaces.
 
-- campaigns
-- companies
-- contacts
-- deals
-- email_events
-- engaments
-- engagements_calls
-- engagements_emails
-- engagements_meetings
-- engagements_notes
-- engagements_tasks
-- forms
-- line_items
-- marketing_emails
-- owners
-- products
-- tickets
-- ticket_pipelines
-- workflows
-- quotes
+Please refer to the manifest-only connector documentation for more details.
 
-The primary key for the following streams is `canonical-vid`:
+## Local Development
+We recommend you use the Connector Builder to edit this connector.
 
-- contacts_list_memberships
+But, if you want to develop this connector locally, you can use the following steps.
 
-The primary key for the following streams is `pipelineId`:
+### Environment Setup
+You will need `airbyte-ci` installed. You can find the documentation [here](airbyte-ci).
 
-- deal_pipelines
-
-The following streams do not have a primary key:
-
-- contact_lists (The primary key could potentially be a composite key (portalId, listId) - https://legacydocs.hubspot.com/docs/methods/lists/get_lists)
-- form_submissions (The entities returned by this endpoint do not have an identifier field - https://legacydocs.hubspot.com/docs/methods/forms/get-submissions-for-a-form)
-- subscription_changes (The entities returned by this endpoint do not have an identified field - https://legacydocs.hubspot.com/docs/methods/email/get_subscriptions_timeline)
-- property_history (The entities returned by this endpoint do not have an identifier field - https://legacydocs.hubspot.com/docs/methods/contacts/get_contacts)
-
-## Local development
-
-### Prerequisites
-
-**To iterate on this connector, make sure to complete this prerequisites section.**
-
-#### Minimum Python version required `= 3.7.0`
-
-#### Build & Activate Virtual Environment and install dependencies
-
-From this connector directory, create a virtual environment:
-
-```
-python -m venv .venv
+### Build
+This will create a dev image (`source-hubspot:dev`) that you can use to test the connector locally.
+```bash
+airbyte-ci connectors --name=source-hubspot build
 ```
 
-This will generate a virtualenv for this module in `.venv/`. Make sure this venv is active in your development environment of choice. To activate it from the terminal, run:
-
+### Test
+This will run the acceptance tests for the connector.
+```bash
+airbyte-ci connectors --name=source-hubspot test
 ```
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-If you are in an IDE, follow your IDE's instructions to activate the virtualenv.
-
-Note that while we are installing dependencies from `requirements.txt`, you should only edit `setup.py` for your dependencies. `requirements.txt` is used for editable installs (`pip install -e`) to pull in Python dependencies from the monorepo and will call `setup.py`. If this is mumbo jumbo to you, don't worry about it, just put your deps in `setup.py` but install using `pip install -r requirements.txt` and everything should work as you expect.
-
-#### Building via Gradle
-
-From the Airbyte repository root, run:
-
-```
-./gradlew :airbyte-integrations:connectors:source-hubspot:build
-```
-
-#### Create credentials
-
-**If you are a community contributor**, follow the instructions in the [documentation](https://docs.airbyte.io/integrations/sources/hubspot)
-to generate the necessary credentials. Then create a file `secrets/config.json` conforming to the `source_hubspot/spec.yaml` file. Note that the `secrets` directory is gitignored by default, so there is no danger of accidentally checking in sensitive information. See `sample_files/sample_config.json` for a sample config file.
-
-**If you are an Airbyte core member**, copy the credentials in Lastpass under the secret name `source hubspot test creds`
-and place them into `secrets/config.json`.
-
-### Locally running the connector
-
-```
-python main.py spec
-python main.py check --config secrets/config.json
-python main.py discover --config secrets/config.json
-python main.py read --config secrets/config.json --catalog sample_files/configured_catalog.json
-```
-
-## Testing
-
-Make sure to familiarize yourself with [pytest test discovery](https://docs.pytest.org/en/latest/goodpractices.html#test-discovery) to know how your test files and methods should be named. First install test dependencies into your virtual environment:
-
-```
-pip install .'[tests]'
-```
-
-### Unit Tests
-
-To run unit tests locally, from the connector directory run:
-
-```
-python -m pytest unit_tests
-```
-
-### Integration Tests
-
-There are two types of integration tests: Acceptance Tests (Airbyte's test suite for all source connectors) and custom integration tests (which are specific to this connector).
-
-#### Custom Integration tests
-
-Place custom tests inside `integration_tests/` folder, then, from the connector root, run
-
-```
-python -m pytest integration_tests
-```
-
-#### Acceptance Tests
-
-Customize `acceptance-test-config.yml` file to configure tests. See [Connector Acceptance Tests](https://docs.airbyte.io/connector-development/testing-connectors/connector-acceptance-tests-reference) for more information. If your connector requires to create or destroy resources for use during acceptance tests create fixtures for it and place them inside integration_tests/acceptance.py.
-
-To run your integration tests with acceptance tests, from the connector root, run
-
-```
-python -m pytest integration_tests -p integration_tests.acceptance
-```
-
-To run your integration tests with docker
-
-### Using gradle to run tests
-
-All commands should be run from airbyte project root. To run unit tests:
-
-```
-./gradlew :airbyte-integrations:connectors:source-hubspot:unitTest
-```
-
-To run acceptance and custom integration tests:
-
-```
-./gradlew :airbyte-integrations:connectors:source-hubspot:integrationTest
-```
-
-### Locally running the connector docker image
-
-#### Build
-
-First, make sure you build the latest Docker image:
-
-```
-docker build . -t airbyte/source-hubspot:dev
-```
-
-You can also build the connector image via Gradle:
-
-```
-./gradlew :airbyte-integrations:connectors:source-hubspot:airbyteDocker
-```
-
-When building via Gradle, the docker image name and tag, respectively, are the values of the `io.airbyte.name` and `io.airbyte.version` `LABEL`s in the Dockerfile.
-
-#### Run
-
-Then run any of the connector commands as follows:
-
-```
-docker run --rm airbyte/source-hubspot:dev spec
-docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-hubspot:dev check --config /secrets/config.json
-docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-hubspot:dev discover --config /secrets/config.json
-docker run --rm -v $(pwd)/secrets:/secrets -v $(pwd)/sample_files:/sample_files airbyte/source-hubspot:dev read --config /secrets/config.json --catalog /sample_files/configured_catalog.json
-```
-
-### Integration Tests
-
-1. From the airbyte project root, run `./gradlew :airbyte-integrations:connectors:source-hubspot:integrationTest` to run the standard integration test suite.
-2. To run additional integration tests, place your integration tests in a new directory `integration_tests` and run them with `python -m pytest -s integration_tests`. Make sure to familiarize yourself with [pytest test discovery](https://docs.pytest.org/en/latest/goodpractices.html#test-discovery) to know how your test files and methods should be named.
-
-## Dependency Management
-
-All of your dependencies should go in `setup.py`, NOT `requirements.txt`. The requirements file is only used to connect internal Airbyte dependencies in the monorepo for local development.
-
-### Publishing a new version of the connector
-
-You've checked out the repo, implemented a million dollar feature, and you're ready to share your changes with the world. Now what?
-
-1. Make sure your changes are passing unit and integration tests
-2. Bump the connector version in `Dockerfile` -- just increment the value of the `LABEL io.airbyte.version` appropriately (we use SemVer).
-3. Create a Pull Request
-4. Pat yourself on the back for being an awesome contributor
-5. Someone from Airbyte will take a look at your PR and iterate with you to merge it into master

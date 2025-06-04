@@ -1,11 +1,12 @@
 #
-# Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+# Copyright (c) 2023 Airbyte, Inc., all rights reserved.
 #
 
 
 from typing import Iterable
 
 import pytest
+
 
 pytest_plugins = ("connector_acceptance_test.plugin",)
 

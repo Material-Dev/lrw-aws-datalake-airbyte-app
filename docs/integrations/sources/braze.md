@@ -5,6 +5,7 @@ This page contains the setup guide and reference information for the Braze sourc
 ## Prerequisites
 
 It is required to have an account on Braze to provide us with `URL` and `Rest API Key` during set up.
+
 - `Rest API Key` could be found on Braze Dashboard -> Developer Console tab -> API Settings -> Rest API Keys
 - `URL` could be found on Braze Dashboard -> Manage Settings -> Settings tab -> `Your App name` -> SDK Endpoint
 
@@ -12,7 +13,7 @@ It is required to have an account on Braze to provide us with `URL` and `Rest AP
 
 ### For Airbyte Cloud:
 
-1. [Log into your Airbyte Cloud](https://cloud.airbyte.io/workspaces) account.
+1. [Log into your Airbyte Cloud](https://cloud.airbyte.com/workspaces) account.
 2. In the left navigation bar, click **Sources**. In the top-right corner, click **+new source**.
 3. On the Set up the source page, enter the name for the Braze connector and select **Braze** from the Source type dropdown.
 4. Fill in your `URL`, `Rest API Key` and `Start date` and then click **Set up source**.
@@ -44,13 +45,33 @@ The Braze source connector supports the following [ sync modes](https://docs.air
 
 Rate limits differ depending on stream.
 
-Rate limits table: https://www.braze.com/docs/api/api_limits/#rate-limits-by-request-type 
-
+Rate limits table: https://www.braze.com/docs/api/api_limits/#rate-limits-by-request-type
 
 ## Changelog
 
-| Version | Date       | Pull Request                                              | Subject                            |
-|:--------|:-----------|:----------------------------------------------------------|:-----------------------------------|
-| 0.1.3   | 2022-12-15 | [20520](https://github.com/airbytehq/airbyte/pull/20520) | The Braze connector born           |
+<details>
+  <summary>Expand to review</summary>
 
+| Version | Date       | Pull Request                                             | Subject                                                            |
+| :------ | :--------- | :------------------------------------------------------- | :----------------------------------------------------------------- |
+| 0.4.14 | 2025-05-10 | [59854](https://github.com/airbytehq/airbyte/pull/59854) | Update dependencies |
+| 0.4.13 | 2025-05-03 | [59309](https://github.com/airbytehq/airbyte/pull/59309) | Update dependencies |
+| 0.4.12 | 2025-04-26 | [58732](https://github.com/airbytehq/airbyte/pull/58732) | Update dependencies |
+| 0.4.11 | 2025-04-19 | [58230](https://github.com/airbytehq/airbyte/pull/58230) | Update dependencies |
+| 0.4.10 | 2025-04-12 | [57643](https://github.com/airbytehq/airbyte/pull/57643) | Update dependencies |
+| 0.4.9 | 2025-04-05 | [57132](https://github.com/airbytehq/airbyte/pull/57132) | Update dependencies |
+| 0.4.8 | 2025-03-29 | [56574](https://github.com/airbytehq/airbyte/pull/56574) | Update dependencies |
+| 0.4.7 | 2025-03-22 | [56122](https://github.com/airbytehq/airbyte/pull/56122) | Update dependencies |
+| 0.4.6 | 2025-03-08 | [55410](https://github.com/airbytehq/airbyte/pull/55410) | Update dependencies |
+| 0.4.5 | 2025-03-01 | [54858](https://github.com/airbytehq/airbyte/pull/54858) | Update dependencies |
+| 0.4.4 | 2025-02-22 | [54275](https://github.com/airbytehq/airbyte/pull/54275) | Update dependencies |
+| 0.4.3 | 2025-02-15 | [53870](https://github.com/airbytehq/airbyte/pull/53870) | Update dependencies |
+| 0.4.2 | 2025-02-08 | [53426](https://github.com/airbytehq/airbyte/pull/53426) | Update dependencies |
+| 0.4.1 | 2025-02-01 | [52922](https://github.com/airbytehq/airbyte/pull/52922) | Update dependencies |
+| 0.4.0 | 2024-10-24 | [47329](https://github.com/airbytehq/airbyte/pull/47329) | Migrate to Manifest-only |
+| 0.3.0 | 2023-11-04 | [31857](https://github.com/airbytehq/airbyte/pull/31857) | Add Campaigns, Canvases, Segments Details Streams |
+| 0.2.0 | 2023-10-28 | [31607](https://github.com/airbytehq/airbyte/pull/31607) | Fix CanvasAnalytics Stream Null Data for step_stats, variant_stats |
+| 0.1.4 | 2023-11-03 | [20520](https://github.com/airbytehq/airbyte/pull/20520) | Fix integration tests |
+| 0.1.3 | 2022-12-15 | [20520](https://github.com/airbytehq/airbyte/pull/20520) | The Braze connector born |
 
+</details>
