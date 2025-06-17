@@ -7,6 +7,7 @@ package io.airbyte.cdk.load.pipeline.object_storage.file
 import io.airbyte.cdk.load.command.Append
 import io.airbyte.cdk.load.command.DestinationCatalog
 import io.airbyte.cdk.load.command.DestinationStream
+import io.airbyte.cdk.load.command.NamespaceMapper
 import io.airbyte.cdk.load.data.FieldType
 import io.airbyte.cdk.load.data.ObjectType
 import io.airbyte.cdk.load.data.StringType
@@ -32,6 +33,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import java.util.UUID
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -72,7 +74,7 @@ class ForwardFileRecordTaskTest {
     fun `forwards end of stream`() = runTest {
         val input =
             PipelineEndOfStream<StreamKey, ObjectLoaderUploadCompleter.UploadResult<String>>(
-                Fixtures.descriptor
+                Fixtures.unmappedDescriptor
             )
         task.handleEvent(input)
 
@@ -148,7 +150,7 @@ class ForwardFileRecordTaskTest {
     }
 
     object Fixtures {
-        val descriptor = DestinationStream.Descriptor("namespace-1", "name-1")
+        val unmappedDescriptor = DestinationStream.Descriptor("namespace-1", "name-1")
 
         private fun message() =
             AirbyteMessage()
@@ -165,20 +167,23 @@ class ForwardFileRecordTaskTest {
 
         fun stream(includeFiles: Boolean = true, schema: ObjectType = schema()) =
             DestinationStream(
-                descriptor = descriptor,
+                unmappedNamespace = unmappedDescriptor.namespace,
+                unmappedName = unmappedDescriptor.name,
                 importType = Append,
                 generationId = 1,
                 minimumGenerationId = 0,
                 syncId = 3,
                 schema = schema,
                 includeFiles = includeFiles,
+                namespaceMapper = NamespaceMapper()
             )
 
         fun record(message: AirbyteMessage = message(), stream: DestinationStream = stream()) =
             DestinationRecordRaw(
                 stream = stream,
                 rawData = DestinationRecordJsonSource(message),
-                serializedSizeBytes = 0L
+                serializedSizeBytes = 0L,
+                airbyteRawId = UUID.randomUUID(),
             )
     }
 }
