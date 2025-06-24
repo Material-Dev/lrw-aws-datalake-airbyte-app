@@ -3,23 +3,22 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo "Validating input parameters..."
+      - echo "Validating environment variables..."
       - echo "EC2_INSTANCE_ID=$EC2_INSTANCE_ID"
       - echo "AIRBYTE_HOST=$AIRBYTE_HOST"
       - echo "AIRBYTE_PORT=$AIRBYTE_PORT"
+
   build:
     commands:
-      - echo "Sending bootstrap command to EC2..."
-      - aws ssm send-command \
+      - echo "Sending remote bootstrap script to EC2..."
+      - |
+        aws ssm send-command \
           --document-name "AWS-RunShellScript" \
           --instance-ids "$EC2_INSTANCE_ID" \
           --comment "Install Airbyte via abctl" \
-          --parameters 'commands=[
-              "export AIRBYTE_HOST=$AIRBYTE_HOST",
-              "export AIRBYTE_PORT=$AIRBYTE_PORT",
-              "bash /home/ec2-user/airbyte/deploy/ec2-bootstrap.sh"
-          ]' \
+          --parameters '{"commands":["export AIRBYTE_HOST=$AIRBYTE_HOST","export AIRBYTE_PORT=$AIRBYTE_PORT","bash /home/ec2-user/airbyte/deploy/ec2-bootstrap.sh"]}' \
           --region "$AWS_REGION" \
           --output text
+
 artifacts:
   files: []
